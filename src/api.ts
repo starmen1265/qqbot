@@ -2,18 +2,13 @@
  * QQ Bot API 鉴权和请求封装
  */
 
-// 沙箱环境支持：通过环境变量 QQBOT_USE_SANDBOX=true 启用沙箱环境
-const USE_SANDBOX = process.env.QQBOT_USE_SANDBOX === "true";
-
-// 根据环境选择 API 地址
-const API_BASE = USE_SANDBOX
-  ? "https://sandbox.api.sgroup.qq.com"
-  : "https://api.sgroup.qq.com";
-
+// 沙箱环境 API 地址（开发测试用）
+// 上线前需要改为：https://api.sgroup.qq.com
+const API_BASE = "https://sandbox.api.sgroup.qq.com";
 const TOKEN_URL = "https://bots.qq.com/app/getAppAccessToken";
 
 // 导出环境信息供调试使用
-export const IS_SANDBOX = USE_SANDBOX;
+export const IS_SANDBOX = true;
 
 let cachedToken: { token: string; expiresAt: number } | null = null;
 
