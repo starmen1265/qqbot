@@ -1,7 +1,7 @@
 import WebSocket from "ws";
 import path from "node:path";
 import type { ResolvedQQBotAccount, WSPayload, C2CMessageEvent, GuildMessageEvent, GroupMessageEvent } from "./types.js";
-import { getAccessToken, getGatewayUrl, sendC2CMessage, sendChannelMessage, sendGroupMessage, clearTokenCache, sendC2CImageMessage, sendGroupImageMessage } from "./api.js";
+import { getAccessToken, getGatewayUrl, sendC2CMessage, sendChannelMessage, sendGroupMessage, clearTokenCache, sendC2CImageMessage, sendGroupImageMessage, IS_SANDBOX } from "./api.js";
 import { getQQBotRuntime } from "./runtime.js";
 import { startImageServer, saveImage, saveImageFromPath, isImageServerRunning, downloadFile, type ImageServerConfig } from "./image-server.js";
 
@@ -97,6 +97,9 @@ export async function startGateway(ctx: GatewayContext): Promise<void> {
   if (!account.appId || !account.clientSecret) {
     throw new Error("QQBot not configured (missing appId or clientSecret)");
   }
+
+  // 显示当前使用的环境
+  log?.info(`[qqbot:${account.accountId}] Using ${IS_SANDBOX ? "SANDBOX" : "PRODUCTION"} environment`);
 
   // 如果配置了公网 URL，启动图床服务器
   let imageServerBaseUrl: string | null = null;
